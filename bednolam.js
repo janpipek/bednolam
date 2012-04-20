@@ -2,9 +2,17 @@ ston = function(str, zeroBased)
 {
   var array = [];
   var lowerCase = str.toLowerCase();
-  for (var i = 0; i < str.length; i++)
+  for (var i = 0; i < lowerCase.length; i++)
   {
-    array.push(str.charCodeAt(i) - 97 + (zeroBased ? 0 : 1));
+    var fromA = lowerCase.charCodeAt(i) - 97;
+    if (fromA >= 26 || fromA < 0)
+    {
+      array.push(undefined);
+    }
+    else
+    {
+      array.push( fromA + (zeroBased ? 0 : 1));
+    }
   }
   return array;
 }
@@ -13,6 +21,10 @@ ntos = function(array, zeroBased)
 {
   return array.map(function(number)
   {
+    if (number === undefined)
+    {
+      return "?";
+    }
     if (number < (zeroBased ? 0 : 1)) number += 26; // Modulo can give negative results
     return String.fromCharCode((number - (zeroBased ? 0 : 1)) % 26 + 97);
   }).join("");
@@ -25,7 +37,14 @@ sadd = function(string1, string2, zeroBased)
   var array = [];
   for (var i = 0; i < array1.length; i++)
   {
-    array.push(array1[i] + array2[i % array2.length]);
+    if (array1[i] === undefined || array2[i % array2.length] === undefined)
+    {
+      array.push(undefined);
+    }
+    else
+    {
+      array.push(array1[i] + array2[i % array2.length]);
+    }
   }
   return ntos(array);
 }
@@ -37,7 +56,14 @@ ssub = function(string1, string2, zeroBased)
   var array = [];
   for (var i = 0; i < array1.length; i++)
   {
-    array.push(array1[i] - array2[i % array2.length]);
+    if (array1[i] === undefined || array2[i % array2.length] === undefined)
+    {
+      array.push(undefined);
+    }
+    else
+    {
+      array.push(array1[i] - array2[i % array2.length]);
+    }
   }
   return ntos(array);
 }
@@ -226,9 +252,9 @@ $(function()
   $("#caesar-plus").click(function() {
     var text1 = $("#caesar-text1").val();
     var text2 = $("#caesar-text2").val();
-    var result = sadd(text1, text2);
+    caesar = sadd(text1, text2);
     $("#caesar-result").text(caesar);
-    saveVariable("caesar", result);
+    saveVariable("caesar", caesar);
 
     saveString(text1);
     saveString(text2);
@@ -240,6 +266,7 @@ $(function()
     var text2 = $("#caesar-text2").val();
     caesar = ssub(text1, text2);
     $("#caesar-result").text(caesar);
+    saveVariable("caesar", caesar);
 
     saveString(text1);
     saveString(text2);
@@ -277,7 +304,7 @@ $(function()
     $("#js-responses").empty();
   });
 
-  $(".string-input").bind("swipe dblclick", function() {
+  $(".string-input").bind("swiperight dblclick", function() {
     var $this = $(this);
     $.mobile.changePage("#strings", {role: "dialog"});
     refreshStringPage();
