@@ -65,3 +65,14 @@ dt:nth-child(1n+2)
   padding-top: 5px;
   margin-top: 5px;
 }
+
+#freq-result
+{
+  margin-top: 10px;
+}
+
+#freq-result td
+{
+
+  padding: 5px;
+}

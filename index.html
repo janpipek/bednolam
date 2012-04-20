@@ -20,7 +20,8 @@
   <div data-role="content"> 
     <a href="#js" data-role="button">Javascriptový interpret</a>
     <a href="#caesar" data-role="button">Posun v abecedě</a>
-    <a href="#pomucky" data-role="button">Různé statické pomůcky</a>   
+    <a href="#freq" data-role="button">Frekvenční analýza</a>
+    <a href="#pomucky" data-role="button">Různé statické pomůcky</a>
     <a href="#help" data-role="button">Nápověda</a>
   </div><!-- /content -->
 
@@ -176,6 +177,9 @@
 
           <dt>ssub( str1, str2, zeroBased=false)</dt>
           <dd>Odečte dva řetězce na základě Caesarovy šifry.</dd>
+
+          <dt>freqa( str )</dt>
+          <dd>Spočítá frekvenční analýzu.</dd>
         </dl>
       </div>
     </div>
@@ -186,6 +190,20 @@
   <div data-role="header"><h2>Historie příkazů</h2></div>
   <div data-role="content">
 
+  </div>
+</div>
+
+<div id="freq" data-role="page">
+  <div data-role="header"><h2>Frekvenční analýza</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <textarea id="freq-text" class="string-input"></textarea>
+    <input type="button" id="freq-button" value="Spočítej"/>
+      <table border="1" id="freq-result">
+
+      </table>
+
+      <p>Výsledek je uložen do proměnné <code>freq</code> v 
+      <a href="#js">JS interpretu.</a>
   </div>
 </div>
 

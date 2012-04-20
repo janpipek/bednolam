@@ -42,6 +42,29 @@ ssub = function(string1, string2, zeroBased)
   return ntos(array);
 }
 
+freqa = function(str)
+{
+  freqs = {};
+  for (var i = 0; i < str.length; i++)
+  {
+    if (freqs[str.charAt(i)])
+    {
+      freqs[str.charAt(i)]++;
+    }
+    else
+    {
+      freqs[str.charAt(i)] = 1;
+    }
+  }
+  sortedFreqs = {};
+  Object.getOwnPropertyNames(freqs).sort().forEach(function(key)
+  {
+    sortedFreqs[key] = freqs[key];
+  });
+
+  return sortedFreqs;
+}
+
 strings = [];
 
 clearData = function()
@@ -65,7 +88,11 @@ variables = {};
 
 saveVariable = function(variable, value)
 {
-  window[variable] = value;
+  if (window[variable] === undefined)
+  {
+    window[variable] = value;
+  }
+  // window[variable] = value;
   variables[variable] = value;
   if (window.localStorage && window.JSON) localStorage.setItem('variables', JSON.stringify(variables));
 }
@@ -86,8 +113,12 @@ evaluate = function(expression)
   if (m)
   {
     variable = m[1];
-    ans = eval(m[2]);
-    saveVariable(variable, ans);
+    eval(expression);
+    if (eval("typeof " + variable) != "function")
+    {
+      saveVariable(variable, ans);
+    }
+    ans = window[variable];
   }
   else
   {
@@ -103,7 +134,23 @@ evaluate = function(expression)
 
 renderValue = function(value)
 {
-  return value;
+  if ($.isArray(value))
+  {
+    return "Array [" + value + "]";
+  }
+  else if (typeof value == "object")
+  {
+    str = "[Object]\n";
+    for (key in value )
+    {
+      str += "  + " + key + ": " + renderValue(value[key]) + "\n";
+    }
+    return str;
+  }
+  else
+  {
+    return value;
+  }
 }
 
 loadFromStorage = function()
@@ -153,9 +200,9 @@ $(function()
       var response = evaluate(expression);
 
       var $response = $("<div class='js-response'>");
-      var $responseInput = $("<div class='js-in'></div>");
+      var $responseInput = $("<pre class='js-in'></div>");
       $responseInput.append($jsInput.val()).appendTo($response);
-      var $responseOutput = $("<div class='js-out'>");
+      var $responseOutput = $("<pre class='js-out'>");
       $responseOutput.text(renderValue(response[0]));
       if (response[1])
       {
@@ -168,9 +215,6 @@ $(function()
       $responseOutput.appendTo($response);
       $("#js-responses").append($response);
       $jsInput.parent().children().val("").text("");
-     // $newInput = $("<input type='text' class='js-input'/>");
-     // $jsForm.prepend($newInput);
-     // $newInput.trigger("create").focus();
     }
     catch(err)
     {
@@ -182,8 +226,9 @@ $(function()
   $("#caesar-plus").click(function() {
     var text1 = $("#caesar-text1").val();
     var text2 = $("#caesar-text2").val();
-    caesar = sadd(text1, text2);
+    var result = sadd(text1, text2);
     $("#caesar-result").text(caesar);
+    saveVariable("caesar", result);
 
     saveString(text1);
     saveString(text2);
@@ -254,6 +299,22 @@ $(function()
       $('.ui-dialog').dialog('close');
     });
     $("#js-history").trigger("create");
+  });
+
+  $("#freq-button").click(function() {
+    var $table = $("#freq-result");
+    $table.empty();
+    var text = $("#freq-text").val();
+    var fr = freqa(text);
+    for (var index in fr)
+    {
+      $tr = $("<tr>");
+      $tr.append( $("<td>" + index + "</td>"));
+      $tr.append( $("<td>" + fr[index] + "</td>"));
+      $table.append($tr);
+    }
+    saveVariable("freq", fr);
+    saveString(text);
   });
 
   loadFromStorage();
