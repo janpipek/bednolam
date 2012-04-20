@@ -1,0 +1,55 @@
+img
+{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left:2.5%;
+  max-width: 95%;
+}
+
+div.js-response
+{
+  font-family: monospace;
+  border-bottom: 1px solid gray;
+}
+
+div.js-response div
+{
+  padding: 3px;
+}
+
+div.js-in
+{
+  border-bottom: 1px dotted gray;
+  color: green;
+}
+
+div.js-out
+{
+  color: blue;
+}
+
+.variable
+{
+  color: red;
+}
+
+code
+{
+  color: green;
+}
+
+#caesar-result
+{
+  padding: 10px;
+  font-size: 120%;
+  border: 1px dotted gray;
+}
+
+.string
+{
+  font-size: 120%;
+  color: blue;
+  padding: 5px;
+  border-bottom: 1px dotted gray;
+  cursor: pointer;
+}

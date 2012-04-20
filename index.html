@@ -1,0 +1,153 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+  <title>Bednolam - šifrovací pomůcky</title> 
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <link rel="stylesheet" href="jquery.mobile-1.1.0.min.css" />
+  <link rel="stylesheet" href="bednolam.css" />
+  <script src="jquery.min.js"></script>
+  <script src="jquery.mobile-1.1.0.min.js"></script>
+  <script src="bednolam.js"></script>
+</head> 
+<body> 
+
+<div data-role="page" id="home">
+  <div data-role="header">
+    <h1>Bednolam</h1>
+  </div><!-- /header -->
+
+  <div data-role="content"> 
+    <a href="#js" data-role="button">Javascriptový interpret</a>
+    <a href="#caesar" data-role="button">Posun v abecedě</a>
+    <a href="#pomucky" data-role="button">Různé statické pomůcky</a>   
+    <a href="#help" data-role="button">Nápověda</a>
+  </div><!-- /content -->
+
+</div><!-- /page -->
+
+<div id="pomucky" data-role="page">
+  <div data-role="header"><h2>Různé statické pomůcky</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <a href="#braille" data-role="button">Braillovo písmo</a>
+    <a href="#polske" data-role="button">Polské kříže</a>
+    <a href="#semafor" data-role="button">Semafor</a>
+    <a href="#vlajky" data-role="button">Vlajková abeceda</a>
+  </div>
+</div>
+
+<div id="polske" data-role="page">
+  <div data-role="header"><h2>Polské kříže</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <h3>Malý polský kříž</h3>
+    <img src="maly_kriz.gif"/>
+    <h3>Velký polský kříž</h3>
+    <table style="font-family:monospace; font-size:120%" border="1">
+      <tr>
+        <td>a b c</td>
+        <td>d e f</td>
+        <td>g h ch</td>
+      </tr>
+      <tr>
+        <td>i j k</td>
+        <td>l m n</td>
+        <td>o p q</td>
+      </tr>
+      <tr>
+        <td>r s t</td>
+        <td>u v w</td>
+        <td>x y z</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div id="braille" data-role="page" >
+  <div data-role="header"><h2>Braillovo písmo
+</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <h3>Základní abeceda</h3>
+    <img src="braille_zaklad.gif"/>
+
+    <h3>Znaky s diakritikou</h3>
+    <img src="braille_diakritika.gif"/>
+
+    <h3>Různá znaménka</h3>
+    <img src="braille_znamenka.gif"/>
+
+    <h3>Prefixy</h3>
+    <img src="braille_prefixy.gif"/>
+
+    <p><i>Převzato z <a href="http://www.shaman.cz">shaman.cz</a></i></p>
+  </div>
+</div>
+
+<div id="semafor" data-role="page">
+  <div data-role="header"><h2>Semafor</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <img src="semafor.gif">
+
+    <p><i>Převzato <a href="http://www.braingle.com/brainteasers/codes/semaphore.php">odněkud</a></i></p>
+  </div>
+</div>
+
+<div id="vlajky" data-role="page">
+  <div data-role="header"><h2>Vlajková abeceda</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <img src="vlajky.gif">
+
+    <p><i>Převzato <a href="http://www.gma.org/tidings/snailtale/flags.html">odněkud</a></i></p>
+  </div>
+</div>
+
+<div id="js" data-role="page">
+  <div data-role="header"><h2>Javascriptový interpret</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <div id="js-responses"></div>
+    <form id="js-form">
+      <input type="text" class="js-input">
+      <input type="submit" value="Proveď"/>
+      <input type="button" value="Vyčistit obrazovku" id="js-clear-page"/>
+      <input type="button" value="Vymazat data" id="js-clear-all"/>
+      <a href="#help" data-role="button">Nápověda</a>
+    </form>
+  </div>
+</div>
+
+<div id="caesar" data-role="page">
+  <div data-role="header"><h2>Posun v abecedě</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <input type="text" id="caesar-text1" class="string-input" />
+    <input type="text" id="caesar-text2" class="string-input" />
+
+    <fieldset class="ui-grid-a">
+      <div class="ui-block-a"><button type="submit" id="caesar-plus">+</button></div>
+      <div class="ui-block-b"><button type="submit" id="caesar-minus">-</button></div>  
+    </fieldset>
+
+    <div id="caesar-result"><em>Žádný výsledek</em></div>
+    <p>Výsledek je uložen do proměnné <code>caesar</code> v 
+      <a href="#js">JS interpretu.</a>
+    </p>
+  </div>
+</div>
+
+<div id="help" data-role="page">
+  <div data-role="header"><h2>Nápověda</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+  </div>
+</div>
+
+<div id="js-history">
+
+</div>
+
+<div id="strings" data-role="page">
+  <div data-role="header"><h2>Uložené řetězce</h2></div>
+  <div data-role="content">
+
+  </div>
+</div>
+
+</body>
+</html>
