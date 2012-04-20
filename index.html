@@ -135,6 +135,37 @@
 <div id="help" data-role="page">
   <div data-role="header"><h2>Nápověda</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
   <div data-role="content">
+    <div data-role="collapsible-set">
+      <div data-role="collapsible">
+        <h3>Javaskript interpret</h3>
+        <h4>Obecné</h4>
+          <ul>
+            <li>Lze libovolně ukládat do proměnných. Nikde ovšem není ošetřeno, že se přitom
+            nepřepisují důležité vlastnosti objektu <code>window</code>. Snad posléze.</li>
+            <li>Pokud je uživatel nesmaže, všechny vytvořené proměnné se ukládají a zůstávájí dostupné
+               i po znovunačtení stránky (s využitím <em>DOM Storage</em>).</li>
+            <li>Poslední odpověď interpretu je uložena v proměnné <code>ans</code>.</li>
+            <li>Seznam všech uživatelských proměnných se nachází v <code>variables</code> a 
+              seznam všech uživatelských řetězců se nachází v <code>strings</code>.
+          </ul>
+
+
+        <h4>Funkce</h4>
+        <dl>
+          <dt>ston( str, zeroBased=false )</dt>
+          <dd>Převede <code>str</code> na pole s pořadím v abecedě</dd>
+
+          <dt>ntos( arr, zeroBased=false )</dt>
+          <dd>Převede pole čísel <code>arr</code> na řetězec. Umí modulit 26.</dd>
+
+          <dt>sadd( str1, str2, zeroBased=false)</dt>
+          <dd>Sečte dva řetězce na základě Caesarovy šifry.</dd>
+
+          <dt>ssub( str1, str2, zeroBased=false)</dt>
+          <dd>Odečte dva řetězce na základě Caesarovy šifry.</dd>
+        </dl>
+      </div>
+    </div>
   </div>
 </div>
 

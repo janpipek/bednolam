@@ -53,3 +53,15 @@ code
   border-bottom: 1px dotted gray;
   cursor: pointer;
 }
+
+dt
+{
+  font-weight: bold;
+}
+
+dt:nth-child(1n+2)
+{
+  border-top: 1px gray dotted;
+  padding-top: 5px;
+  margin-top: 5px;
+}
