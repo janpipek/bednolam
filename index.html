@@ -105,7 +105,10 @@
   <div data-role="content">
     <div id="js-responses"></div>
     <form id="js-form">
-      <input type="text" class="js-input">
+      <fieldset>
+        <input type="text" class="js-input">
+        <textarea class="js-input" style="display:none"></textarea>
+      </fieldset>
       <input type="submit" value="Proveď"/>
       <input type="button" value="Vyčistit obrazovku" id="js-clear-page"/>
       <input type="button" value="Vymazat data" id="js-clear-all"/>
@@ -136,6 +139,14 @@
   <div data-role="header"><h2>Nápověda</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
   <div data-role="content">
     <div data-role="collapsible-set">
+      <div data-role="collapsible" data-collapsed="false">
+        <h3>Ovládání programu</h3>
+        <ul>
+          <li>Pokud přejedete (swipe) horizontálně prstem přes některá textová pole, objeví se
+            seznam řetězců, z nichž lze některý vybrat a klepnutím na něj jej do pole vložit.</li>
+        </ul>
+      </div>
+
       <div data-role="collapsible">
         <h3>Javaskript interpret</h3>
         <h4>Obecné</h4>
@@ -147,6 +158,8 @@
             <li>Poslední odpověď interpretu je uložena v proměnné <code>ans</code>.</li>
             <li>Seznam všech uživatelských proměnných se nachází v <code>variables</code> a 
               seznam všech uživatelských řetězců se nachází v <code>strings</code>.
+            <li>Swipe doleva přepíná mezi jednořádkovým a víceřádkovým vstupem.</li>
+            <li>Swipe doprava nabízí historii předchozích příkazů.</li>
           </ul>
 
 
@@ -169,8 +182,11 @@
   </div>
 </div>
 
-<div id="js-history">
+<div id="js-history" data-role="page">
+  <div data-role="header"><h2>Historie příkazů</h2></div>
+  <div data-role="content">
 
+  </div>
 </div>
 
 <div id="strings" data-role="page">

@@ -57,7 +57,7 @@ saveString = function(str)
   if (strings.indexOf(str) < 0)
   {
     strings.push(str);
-    localStorage.setItem('strings', JSON.stringify(strings));
+    if (window.localStorage && window.JSON) localStorage.setItem('strings', JSON.stringify(strings));
   }
 }
 
@@ -67,17 +67,7 @@ saveVariable = function(variable, value)
 {
   window[variable] = value;
   variables[variable] = value;
-  /**
-  if (variables.hasOwnProperty(variable))
-  {
-    
-  }
-  else
-  {
-    Object.defineProperty(variables, variable, { enumerable: true, "value" : value, writable: true });
-  }
-  **/
-  localStorage.setItem('variables', JSON.stringify(variables));
+  if (window.localStorage && window.JSON) localStorage.setItem('variables', JSON.stringify(variables));
 }
 
 expressions = [];
@@ -85,7 +75,7 @@ expressions = [];
 saveExpression = function(expression)
 {
   expressions.push(expression);
-  localStorage.setItem('expressions', JSON.stringify(expressions));
+  if (window.localStorage && window.JSON) localStorage.setItem('expressions', JSON.stringify(expressions));
 }
 
 evaluate = function(expression)
@@ -118,45 +108,48 @@ renderValue = function(value)
 
 loadFromStorage = function()
 {
-  var ss = localStorage.getItem("strings");
-  if (ss)
+  if (window.localStorage && window.JSON)
   {
-    strings = JSON.parse(ss);
-  }
+    var ss = localStorage.getItem("strings");
+    if (ss)
+    {
+      strings = JSON.parse(ss);
+    }
 
-  var vs = localStorage.getItem("variables");
-  if (vs)
-  {
-    variables = JSON.parse(vs);
-    $.extend(window, variables);
-  }
+    var vs = localStorage.getItem("variables");
+    if (vs)
+    {
+      variables = JSON.parse(vs);
+      $.extend(window, variables);
+    }
 
-  var es = localStorage.getItem("expressions");
-  if (es)
-  {
-    expressions = JSON.parse(es);
-  }
+    var es = localStorage.getItem("expressions");
+    if (es)
+    {
+      expressions = JSON.parse(es);
+    }
+}
 }
 
 $(function()
 {
   var $jsForm = $("#js-form");
 
-  $(".js-input").live("dblclick", function()
+  $(".js-input").bind("swipeleft", function()
   {
-    var $this = $(this);
-    var value = $(this).val();
-    var $textArea = $("<textArea class='js-input'>");
-    $textArea.text(value);
-    $this.replaceWith($textArea);
+    $(this).siblings().val($(this).text());
+    $(this).siblings().text($(this).val());
+    $(this).siblings().show();
+    $(this).hide();
   });
 
   $jsForm.submit(function()
   {
-    var $jsInput = $jsForm.find("input.js-input");
+    var $jsInput = $jsForm.find(".js-input:visible");
     try
     {
       var expression = $jsInput.val();
+      if (!expression) expression = $jsInput.text();
       var response = evaluate(expression);
 
       var $response = $("<div class='js-response'>");
@@ -174,10 +167,10 @@ $(function()
       }
       $responseOutput.appendTo($response);
       $("#js-responses").append($response);
-      $jsInput.remove();
-      $newInput = $("<input type='text' class='js-input'/>");
-      $jsForm.prepend($newInput);
-      $newInput.trigger("create").focus();
+      $jsInput.parent().children().val("").text("");
+     // $newInput = $("<input type='text' class='js-input'/>");
+     // $jsForm.prepend($newInput);
+     // $newInput.trigger("create").focus();
     }
     catch(err)
     {
@@ -219,6 +212,17 @@ $(function()
     });
   }
 
+  var refreshJsHistoryPage = function()
+  {
+    $content = $("#js-history .ui-content");
+    $content.text("");
+    expressions.forEach(function(e) {
+      $e = $("<div class='string'>");
+      $e.text(e);
+      $content.append($e);
+    })
+  }
+
   $("#js-clear-page").click(function() {
     $("#js-responses").empty();
   });
@@ -238,7 +242,19 @@ $(function()
       $('.ui-dialog').dialog('close');
     });
     $("#strings").trigger("create");
-    
   });
+
+  $(".js-input").bind("swiperight dblclick", function() {
+    var $this = $(this);
+    $.mobile.changePage("#js-history", {role: "dialog"});
+    refreshJsHistoryPage();
+    $("#js-history .string").click(function()
+    {
+      $this.val($(this).text());
+      $('.ui-dialog').dialog('close');
+    });
+    $("#js-history").trigger("create");
+  });
+
   loadFromStorage();
 });
