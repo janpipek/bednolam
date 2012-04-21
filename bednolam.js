@@ -68,7 +68,7 @@ ssub = function(string1, string2, zeroBased)
   return ntos(array);
 }
 
-freqa = function(str)
+freqa = function(str, orderByFreq)
 {
   freqs = {};
   for (var i = 0; i < str.length; i++)
@@ -83,10 +83,20 @@ freqa = function(str)
     }
   }
   sortedFreqs = {};
-  Object.getOwnPropertyNames(freqs).sort().forEach(function(key)
+  if (orderByFreq) 
   {
-    sortedFreqs[key] = freqs[key];
-  });
+    Object.getOwnPropertyNames(freqs).sort(function(key1, key2) { return freqs[key2] - freqs[key1]; }).forEach(function(key)
+    {
+      sortedFreqs[key] = freqs[key];
+    });
+  }
+  else
+  {
+    Object.getOwnPropertyNames(freqs).sort().forEach(function(key)
+    {
+      sortedFreqs[key] = freqs[key];
+    });    
+  }
 
   return sortedFreqs;
 }
@@ -140,11 +150,11 @@ evaluate = function(expression)
   {
     variable = m[1];
     eval(expression);
+    ans = window[variable];
     if (eval("typeof " + variable) != "function")
     {
       saveVariable(variable, ans);
     }
-    ans = window[variable];
   }
   else
   {
@@ -332,7 +342,8 @@ $(function()
     var $table = $("#freq-result");
     $table.empty();
     var text = $("#freq-text").val();
-    var fr = freqa(text);
+    var byFreq = $("#freq-by-freq")[0].checked;
+    var fr = freqa(text, byFreq);
     for (var index in fr)
     {
       $tr = $("<tr>");
