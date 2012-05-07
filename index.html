@@ -21,6 +21,9 @@
     <a href="#js" data-role="button">Javascriptový interpret</a>
     <a href="#caesar" data-role="button">Posun v abecedě</a>
     <a href="#freq" data-role="button">Frekvenční analýza</a>
+    <a href="#analyz" data-role="button">Analýza textu</a>
+    <a href="#braille-trans" data-role="button">Překlad Braillova písma</a>
+    <a href="#flag-trans" data-role="button">Překlad semaforu</a>
     <a href="#pomucky" data-role="button">Různé statické pomůcky</a>
     <a href="#help" data-role="button">Nápověda</a>
   </div><!-- /content -->
@@ -130,7 +133,7 @@
       <div class="ui-block-b"><button type="submit" id="caesar-minus">-</button></div>  
     </fieldset>
 
-    <div id="caesar-result"><em>Žádný výsledek</em></div>
+    <div id="caesar-result" class="text-result"><em>Žádný výsledek</em></div>
     <p>Výsledek je uložen do proměnné <code>caesar</code> v 
       <a href="#js">JS interpretu.</a>
     </p>
@@ -209,12 +212,6 @@
    <tr><td width="150">4. prosinec</td><td>Barbora</td></tr><tr><td width="150">5. prosinec</td><td>Jitka</td></tr><tr><td width="150">6. prosinec</td><td>Mikuláš</td></tr><tr><td width="150">7. prosinec</td><td>Ambrož a Aenjamín</td></tr><tr><td width="150">8. prosinec</td><td>Květoslava</td></tr><tr><td width="150">9. prosinec</td><td>Vratislav</td></tr><tr><td width="150">10. prosinec</td><td>Julie</td></tr><tr><td width="150">11. prosinec</td><td>Dana</td></tr><tr><td width="150">12. prosinec</td><td>Simona</td></tr><tr><td width="150">13. prosinec</td><td>Lucie</td></tr><tr><td width="150">14. prosinec</td><td>Lýdie</td></tr><tr><td width="150">15. prosinec</td><td>Radana a Radan</td></tr><tr><td width="150">16. prosinec</td><td>Albína</td></tr><tr><td width="150">17. prosinec</td><td>Daniel</td></tr><tr><td width="150">18. prosinec</td><td>Miloslav</td></tr><tr><td width="150">19. prosinec</td><td>Ester</td></tr><tr><td width="150">20. prosinec</td><td>Dagmar</td></tr><tr><td width="150">21. prosinec</td><td>Natálie</td></tr><tr><td width="150">22. prosinec</td><td>Šimon</td></tr><tr><td width="150">23. prosinec</td><td>Vlasta</td></tr><tr><td width="150">24. prosinec</td><td>Adam a Eva</td></tr><tr><td width="150">25. prosinec</td><td>Vánoce</td></tr><tr><td width="150">26. prosinec</td><td>Štěpán</td></tr><tr><td width="150">27. prosinec</td><td>Žaneta</td></tr><tr><td width="150">28. prosinec</td><td>Bohumila</td></tr><tr><td width="150">29. prosinec</td><td>Judita</td></tr><tr><td width="150">30. prosinec</td><td>David</td></tr><tr><td width="150">31. prosinec</td><td>Silvestr</td></tr></tbody>
 
     </table>
-
-
- 
-
-
-
   </div>
 </div>
 
@@ -223,6 +220,7 @@
   <div data-role="content">
     <textarea id="freq-text" class="string-input"></textarea>
     <input type="checkbox" id="freq-by-freq" checked="checked"/><label for="freq-by-freq">Podle četnosti</label>
+    <input type="checkbox" id="freq-low-case" checked="checked"/><label for="freq-low-case">Vše lower case</label>
     <input type="button" id="freq-button" value="Spočítej"/>
     
       <table border="1" id="freq-result">
@@ -231,6 +229,7 @@
 
       <p>Výsledek je uložen do proměnné <code>freq</code> v 
       <a href="#js">JS interpretu.</a>
+      </p>
   </div>
 </div>
 
@@ -240,6 +239,96 @@
 
   </div>
 </div>
+
+<div id="braille-trans" data-role="page">
+  <div data-role="header"><h2>Překlad Braillova písma</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <fieldset class="ui-grid-c">
+      <div class="ui-block-b"></div>
+      <div class="ui-block-b"><input type="checkbox" id="braille-trans-1" /><label for="braille-trans-1">1</label></div>
+      <div class="ui-block-b"><input type="checkbox" id="braille-trans-4" /><label for="braille-trans-4">4</label></div>  
+    </fieldset>
+    <fieldset class="ui-grid-c">
+      <div class="ui-block-b"></div>
+      <div class="ui-block-b"><input type="checkbox" id="braille-trans-2" /><label for="braille-trans-2">2</label></div>
+      <div class="ui-block-b"><input type="checkbox" id="braille-trans-5" /><label for="braille-trans-5">5</label></div>  
+    </fieldset>
+    <fieldset class="ui-grid-c">
+      <div class="ui-block-b"></div>
+      <div class="ui-block-b"><input type="checkbox" id="braille-trans-3" /><label for="braille-trans-3">3</label></div>
+      <div class="ui-block-b"><input type="checkbox" id="braille-trans-6" /><label for="braille-trans-6">6</label></div>  
+    </fieldset>
+    <input type="button" id="braille-trans-button" value="Přelož"/>
+    
+    <div id="braille-trans-text" class="text-result-gray"><em>Poslední znak</em></div>
+    <div id="braille-trans-result" class="text-result"><em>Tajenka</em></div>
+
+    <p>Výsledek je uložen do proměnné <code>strbr</code> v 
+      <a href="#js">JS interpretu.</a>
+    </p>
+  </div>
+</div>
+
+<div id="flag-trans" data-role="page">
+  <div data-role="header"><h2>Překlad semaforu</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <fieldset class="ui-grid-d">
+      <div class="ui-block-b"></div>
+      <div class="ui-block-b"><input type="checkbox" id="flag-trans-3" /><label for="flag-trans-3">SZ</label></div>
+      <div class="ui-block-b"><input type="checkbox" id="flag-trans-4" /><label for="flag-trans-4">S</label></div>
+      <div class="ui-block-b"><input type="checkbox" id="flag-trans-5" /><label for="flag-trans-5">SV</label></div>    
+    </fieldset>
+    <fieldset class="ui-grid-d">
+      <div class="ui-block-b"></div>
+      <div class="ui-block-b"><input type="checkbox" id="flag-trans-2" /><label for="flag-trans-2">Z</label></div>
+      <div class="ui-block-b"></div>    
+      <div class="ui-block-b"><input type="checkbox" id="flag-trans-6" /><label for="flag-trans-6">V</label></div>    
+    </fieldset>
+    <fieldset class="ui-grid-d">
+      <div class="ui-block-b"></div>
+      <div class="ui-block-b"><input type="checkbox" id="flag-trans-1" /><label for="flag-trans-1">JZ</label></div>
+      <div class="ui-block-b"><input type="checkbox" id="flag-trans-8" /><label for="flag-trans-8">J</label></div>
+      <div class="ui-block-b"><input type="checkbox" id="flag-trans-7" /><label for="flag-trans-7">JV</label></div>    
+    </fieldset>
+    <input type="button" id="flag-trans-button" value="Přelož"/>
+    
+    <div id="flag-trans-text" class="text-result-gray"><em>Poslední znak</em></div>
+    <div id="flag-trans-result" class="text-result"><em>Tajenka</em></div>
+
+    <p>Výsledek je uložen do proměnné <code>strflg</code> v 
+      <a href="#js">JS interpretu.</a>
+    </p>
+  </div>
+</div>
+
+<div id="analyz" data-role="page">
+  <div data-role="header"><h2>Analýza textu</h2><a href="#home" data-role="button" data-inline="true">Domů</a></div>
+  <div data-role="content">
+    <textarea id="analyz-text" class="string-input"></textarea>
+    <input type="checkbox" id="analyz-low-case" checked="checked"/><label for="analyz-low-case">Vše lower case</label>
+    <input type="button" id="analyz-button" value="Analyzuj"/>
+
+    <div data-role="collapsible" id="analyz-basic-data-role" data-collapsed="false">
+        <h3>Základní analýza</h3>
+	<table border="1" id="analyz-basic-result-table" class="table-result">
+	      
+	</table>
+    </div>
+    <div data-role="collapsible">
+        <h3>Frekvence písmen a číslic</h3>
+	<table border="1" id="analyz-freq-result-table" class="table-result">
+
+	</table>
+    </div>
+    <div data-role="collapsible">
+        <h3>Bigramy</h3>
+    </div>
+    <div data-role="collapsible">
+        <h3>Trigramy</h3>
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>

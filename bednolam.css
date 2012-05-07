@@ -38,12 +38,46 @@ code
   color: green;
 }
 
-#caesar-result
+.text-result-gray
 {
   padding: 10px;
   font-size: 120%;
+  color: gray;
   border: 1px dotted gray;
 }
+
+.text-result
+{
+  padding: 10px;
+  font-size: 120%;
+  color: black;
+  border: 1px dotted gray;
+}
+
+.table-result
+{
+  font-size: 120%;
+  color: black;
+  border: none;
+  
+}
+
+.table-td-result-italic
+{
+  padding: 5px;
+  color: black;
+  font-style: italic;
+  border: 1px dotted;  
+}
+
+
+.table-td-result
+{
+  padding: 5px;
+  border: 1px dotted gray;  
+}
+
+
 
 .string
 {
