@@ -193,10 +193,6 @@ getflag = function(checks) {
 
 AnalyzFreq = function(str, LowCase)
 {
-  if (LowCase) 
-  {
-    str = str.toLowerCase();
-  }
   freqs = {};
   for (var i = 0; i < str.length; i++)
   {
@@ -217,6 +213,102 @@ AnalyzFreq = function(str, LowCase)
     sortedFreqs[key] = freqs[key];
   });
   return sortedFreqs;
+}
+
+AnalyzFreqBig = function(str, LowCase)
+{
+  var j;
+  var big;
+  
+  freqs = {};
+  for (var i = 0; i < str.length - 1; i++)
+  {
+    if (IsCharOrNum(str,i)) {
+      j = i + 1;
+      while (j < str.length && !IsCharOrNum(str,j)) {
+	j++;
+      }
+      if (j < str.length) {
+	  big = str.charAt(i) + str.charAt(j);
+	  if (freqs[big])
+	  {
+	    freqs[big]++;
+	  }
+	  else
+	  {
+	    freqs[big] = 1;
+	  }
+      }
+    }
+  }
+  sortedFreqs = {};
+  Object.getOwnPropertyNames(freqs).sort(function(key1, key2) { return freqs[key2] - freqs[key1]; }).forEach(function(key)
+  {
+    sortedFreqs[key] = freqs[key];
+  });
+  return sortedFreqs;
+}
+
+AnalyzFreqTrig = function(str, LowCase)
+{
+  var j, k;
+  var trig;
+  
+  freqs = {};
+  for (var i = 0; i < str.length - 2; i++) {
+    if (IsCharOrNum(str,i)) {
+      j = i + 1;
+      while (j < str.length - 1 && !IsCharOrNum(str,j)) {
+	j++;
+      }
+      if (j < str.length - 1) {
+	  k = j + 1;
+	  while (k < str.length && !IsCharOrNum(str,k)) {
+	    k++;
+	  }
+	  if (k < str.length) {
+	    trig = str.charAt(i) + str.charAt(j) + str.charAt(k);
+	    if (freqs[trig]) {
+	      freqs[trig]++;
+	    } else {
+	      freqs[trig] = 1;
+	    }
+	  }
+      }
+    }
+  }
+  sortedFreqs = {};
+  Object.getOwnPropertyNames(freqs).sort(function(key1, key2) { return freqs[key2] - freqs[key1]; }).forEach(function(key)
+  {
+    sortedFreqs[key] = freqs[key];
+  });
+  return sortedFreqs;
+}
+
+AnalyzEmphAt = function(text, emph) {
+    var empharr = {};
+    var IsEmph;
+    var k = 0;
+    var j, i;
+    for(i = 0; i < text.length; i++) {
+      if (text[i] == emph[0]) {
+	IsEmph = true;
+	for (j = 0; j < emph.length; j++) {
+	  if (text[i + j] != emph[j]) {
+	    IsEmph = false;
+	  }
+	}
+	
+	if(IsEmph) {
+	  for (j = 0; j < emph.length; j++) {
+	    empharr[k] = i + j;
+	    k++;
+	  }
+	}
+      }
+    }
+  
+    return empharr;
 }
 
 IsCharOrNum = function(str, j) {
@@ -513,7 +605,7 @@ $(function()
       var checks = new Array(6);
       checks[0] = $("#braille-trans-1")[0].checked;
       checks[1] = $("#braille-trans-2")[0].checked;
-      checks[2] = $("#braille-tmášrans-3")[0].checked;
+      checks[2] = $("#braille-trans-3")[0].checked;
       checks[3] = $("#braille-trans-4")[0].checked;
       checks[4] = $("#braille-trans-5")[0].checked;
       checks[5] = $("#braille-trans-6")[0].checked;
@@ -525,6 +617,12 @@ $(function()
 	if( $("#braille-trans-result").text() == "Tajenka") {
 	    $("#braille-trans-result").empty();
 	}
+
+	$("#braille-trans input:checkbox")
+		.attr("checked", false)
+		.checkboxradio("refresh");
+	
+	
 	$("#braille-trans-result").append(znak);
 	var tajenka = $("#braille-trans-result").text();
 	saveVariable("strbr", tajenka);
@@ -546,53 +644,101 @@ $(function()
       if (znak == "NaC") {
 	$("#flag-trans-text").text("Neznámý znak");
       } else {
+	
 	$("#flag-trans-text").text(znak);
 	if( $("#flag-trans-result").text() == "Tajenka") {
 	    $("#flag-trans-result").empty();
 	}
 	$("#flag-trans-result").append(znak);
+	
 	var tajenka = $("#flag-trans-result").text();
+	$("#flag-trans input:checkbox")
+		.attr("checked", false)
+		.checkboxradio("refresh");
 	saveVariable("strflg", tajenka);
 	saveString(tajenka);
       }
   });
 
   $("#analyz-button").click(function() {
+    var $result = $("#analyz-text-result");
+    $result.empty();
     var $table1 = $("#analyz-basic-result-table");
     $table1.empty();
     var $table2 = $("#analyz-freq-result-table");
     $table2.empty();
+    var $table3 = $("#analyz-freqbig-result-table");
+    $table3.empty();
+    var $table4 = $("#analyz-freqtrig-result-table");
+    $table4.empty();
+    
+    var emph = $("#analyz-emph-input").val();
     var text = $("#analyz-text").val();
     var LowCase = $("#analyz-low-case")[0].checked;
-    var fr = AnalyzFreq(text, LowCase);
+    if (LowCase) {
+      text = text.toLowerCase();
+    }
+ 
     var charsandnum = AnalyzCharsAndNum(text);
+    var fr = AnalyzFreq(text);
+    var frbig = AnalyzFreqBig(text);
+    var frtrig = AnalyzFreqTrig(text);
 
     var frsize = 0;
     for (var index in fr) {
       frsize ++;
     }
+   
+    for (index in text) {
+      $tr = $("<span></span>");
+      $tr.append( $("<span id='analyz-result-" + index + "' class='analyz-result-text-normal'>" + text[index] + "</span>"));
+      $result.append($tr);
+    }
     
+    if(emph.length > 0) {
+      var emphat = AnalyzEmphAt(text,emph);
+      for (index in emphat) {
+	$("#analyz-result-" + emphat[index]).attr("class","analyz-result-text-emp");
+      }
+    }
+        
     $tr = $("<tr>");
-    $tr.append( $("<td class='table-td-result-italic'> Znaků celkem: </td>"));
-    $tr.append( $("<td class='table-td-result'>" + text.length + "</td>"));
+    $tr.append( $("<td class='table-td-result'> znaků celkem: </td>"));
+    $tr.append( $("<td class='table-td-result-italic'>" + text.length + "</td>"));
     $table1.append($tr);
     $tr = $("<tr>");
-    $tr.append( $("<td class='table-td-result-italic'> Písmen a číslic: </td>"));
-    $tr.append( $("<td class='table-td-result'>" + charsandnum + "</td>"));
+    $tr.append( $("<td class='table-td-result'> písmen a číslic: </td>"));
+    $tr.append( $("<td class='table-td-result-italic'>" + charsandnum + "</td>"));
     $table1.append($tr);
     $tr = $("<tr>");
-    $tr.append( $("<td class='table-td-result-italic'> Unikátních: </td>"));
-    $tr.append( $("<td class='table-td-result'>" + frsize + "</td>"));
+    $tr.append( $("<td class='table-td-result'> unikátních: </td>"));
+    $tr.append( $("<td class='table-td-result-italic'>" + frsize + "</td>"));
     $table1.append($tr);
 
-    
-    for (var index in fr)
+    for (index in fr)
     {
       $tr = $("<tr>");
-      $tr.append( $("<td class='table-td-result-italic'>" + index + "</td>"));
-      $tr.append( $("<td class='table-td-result'>" + fr[index] + "</td>"));
+      $tr.append( $("<td class='table-td-result'>" + index + "</td>"));
+      $tr.append( $("<td class='table-td-result-italic'>" + fr[index] + "</td>"));
       $table2.append($tr);
     }
+
+    for (index in frbig)
+    {
+      $tr = $("<tr>");
+      $tr.append( $("<td class='table-td-result'>" + index + "</td>"));
+      $tr.append( $("<td class='table-td-result-italic'>" + frbig[index] + "</td>"));
+      $table3.append($tr);
+    }
+
+    for (index in frtrig)
+    {
+      $tr = $("<tr>");
+      $tr.append( $("<td class='table-td-result'>" + index + "</td>"));
+      $tr.append( $("<td class='table-td-result-italic'>" + frtrig[index] + "</td>"));
+      $table4.append($tr);
+    }
+
     saveString(text);
   });
 

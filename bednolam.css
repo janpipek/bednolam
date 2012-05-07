@@ -77,8 +77,6 @@ code
   border: 1px dotted gray;  
 }
 
-
-
 .string
 {
   font-size: 120%;
@@ -109,4 +107,18 @@ dt:nth-child(1n+2)
 {
 
   padding: 5px;
+}
+
+#analyz-text-result
+{
+  padding: 10px;
+  font-size: 150%;
+  color: black;
+  border: 1px dotted gray;
+  font-family: monospace;
+}
+
+.analyz-result-text-emp
+{
+  background: red;
 }
